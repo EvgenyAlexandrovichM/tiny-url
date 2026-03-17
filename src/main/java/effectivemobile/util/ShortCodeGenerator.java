@@ -1,6 +1,5 @@
 package effectivemobile.util;
 
-import effectivemobile.exception.InvalidShortCodeException;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;

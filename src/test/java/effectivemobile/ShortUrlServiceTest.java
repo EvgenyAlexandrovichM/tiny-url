@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -169,9 +170,16 @@ public class ShortUrlServiceTest {
         when(repository.existsByShortCode("abc123")).thenReturn(false);
         when(repository.existsByAlias("abc123")).thenReturn(false);
 
+        ArgumentCaptor<ShortUrl> captor = ArgumentCaptor.forClass(ShortUrl.class);
+
         service.createShortUrl(req);
 
-        repository.save(ArgumentCaptor.forClass(ShortUrl.class).capture());
+        verify(repository).save(captor.capture());
+
+        ShortUrl saved = captor.getValue();
+
+        assertEquals("http://google.com/Path", saved.getOriginalUrl());
+
     }
 
 
